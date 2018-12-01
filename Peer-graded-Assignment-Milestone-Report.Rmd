@@ -1,0 +1,165 @@
+---
+title: "Data Science Capstone Peer-graded Assignment: Milestone Report"
+author: "Enrique Estrada"
+date: "October 19, 2018"
+output: html_document
+---
+## Introduction
+
+The goal of the capstone project is to create a predictive text model using a large text corpus of documents as training data. Natural language processing techniques will be used to perform the analysis.
+
+## Loading (Blogs, News, Twitter)
+```{r}
+setwd("D:/Coursera/Coursera-SwiftKey/final/en_US")
+
+blogs <- readLines("en_US.blogs.txt", warn = FALSE, encoding = "UTF-8")
+news <- readLines("en_US.news.txt", warn = FALSE, encoding = "UTF-8")
+twitter <- readLines("en_US.twitter.txt", warn = FALSE, encoding = "UTF-8")
+```
+
+## Sampling
+```{r, echo=TRUE}
+library(stringi) # stats files
+# Size of Files file.size
+size_blogs <- file.info("en_US.blogs.txt")$size / 1024^2 # Megabytes
+size_news <- file.info("en_US.news.txt")$size  / 1024^2 # Megabytes
+size_twitter <- file.info("en_US.twitter.txt")$size / 1024^2 # Megabytes
+
+# Number of Lines num.lines
+len_blogs <- length(blogs) # 899,288 lines
+len_news <- length(news)  # 1,010,242 lines
+len_twitter <- length(twitter) # 2,360,148
+
+# Number of characters
+nchar_blogs <- sum(nchar(blogs))
+nchar_news <- sum(nchar(news))
+nchar_twitter <- sum(nchar(twitter))
+
+# Counting the Words (num.words)
+nword_blogs <- sum(stri_count_words(blogs)) # words at blogs = 37,546,246
+nword_news <- sum(stri_count_words(news))  # words at news =  34,762,395
+nword_twitter <-sum(stri_count_words(twitter)) # words at twitter = 30,093,410
+
+# create table 
+data.frame(file.name = c("blogs", "news", "twitter"),
+files.size.MB = c(size_blogs,size_news,size_twitter),
+num.lines = c(len_blogs,len_news,len_twitter),
+num.character = c(nchar_blogs,nchar_news,nchar_twitter),
+num.words = c(nword_blogs,nword_news,nword_twitter))
+```
+
+## Sampling
+Remove all non-English characters and then compile a sample dataset that is composed of 1% of each of the 3 original datasets.
+```{r}
+set.seed(12345)
+blogs1 <-iconv(blogs,"latin1","ASCII",sub="")
+news1 <-iconv(news,"latin1","ASCII",sub="")
+twitter1 <-iconv(twitter,"latin1","ASCII",sub="")
+
+# sample data set only 1% of each file
+sample_data <-c(sample(blogs1,length(blogs1)*0.01),
+               sample(news1,length(news1)*0.01),
+               sample(twitter1,length(twitter1)*0.01))
+```
+
+Since Data sets is too big for processing, so using sample() function, I sample 1% of each file.
+
+## Clean and Build Corpus
+```{r, echo=TRUE}
+library(tm) # Text mining
+library(NLP)
+
+corpus <- VCorpus(VectorSource(sample_data))
+corpus1 <- tm_map(corpus,removePunctuation)
+corpus2 <- tm_map(corpus1,stripWhitespace)
+corpus3 <- tm_map(corpus2,tolower) # Convert to lowercase
+corpus4 <- tm_map(corpus3,removeNumbers)
+corpus5 <- tm_map(corpus4,PlainTextDocument)
+#removing stop words in English (a, as, at, so, etc.)
+corpus6 <- tm_map(corpus5,removeWords,stopwords("english")) 
+```
+
+## Build N-Grams 
+In Natural Language Processing (NLP),  *n*-gram is a contiguous sequence of n items from a given sequence of text or speech. Unigrams are single words. Bigrams are two words combinations. Trigrams are three-word combinations.
+
+The following function is used to extract 1-grams, 2-grams, 3-grams from the text Corpus using RWeka.
+
+```{r, echo=TRUE}
+library(RWeka)# tokenizer - create unigrams, bigrams, trigrams
+
+#I use the RWeka package to construct functions that tokenize the sample and construct matrices of uniqrams, bigrams, and trigrams.
+
+one<-function(x) NGramTokenizer(x,Weka_control(min=1,max=1))
+two<-function(x) NGramTokenizer(x,Weka_control(min=2,max=2))
+thr<-function(x) NGramTokenizer(x,Weka_control(min=3,max=3))
+
+one_table<-TermDocumentMatrix(corpus6,control=list(tokenize=one))
+two_table<-TermDocumentMatrix(corpus6,control=list(tokenize=two))
+thr_table<-TermDocumentMatrix(corpus6,control=list(tokenize=thr))
+
+#Then I find the frequency of terms in each of these 3 matrices and construct dataframes of these frequencies.
+
+one_corpus<-findFreqTerms(one_table,lowfreq=1000)
+two_corpus<-findFreqTerms(two_table,lowfreq=80)
+thr_corpus<-findFreqTerms(thr_table,lowfreq=10)
+
+one_corpus_num<-rowSums(as.matrix(one_table[one_corpus,]))
+one_corpus_table<-data.frame(Word=names(one_corpus_num),frequency=one_corpus_num)
+one_corpus_sort<-one_corpus_table[order(-one_corpus_table$frequency),]
+head(one_corpus_sort)
+
+two_corpus_num<-rowSums(as.matrix(two_table[two_corpus,]))
+two_corpus_table<-data.frame(Word=names(two_corpus_num),frequency=two_corpus_num)
+two_corpus_sort<-two_corpus_table[order(-two_corpus_table$frequency),]
+head(two_corpus_sort)
+
+thr_corpus_num<-rowSums(as.matrix(thr_table[thr_corpus,]))
+thr_corpus_table<-data.frame(Word=names(thr_corpus_num),frequency=thr_corpus_num)
+thr_corpus_sort<-thr_corpus_table[order(-thr_corpus_table$frequency),]
+head(thr_corpus_sort)
+```
+
+
+## Exploratory Analysis (Graphs & Visualizations)
+The frequency distribution of each n-grams category were visualized into 3 different bar plots. 
+```{r, echo=TRUE}
+library(ggplot2) #visualization
+
+one_g<-ggplot(one_corpus_sort[1:10,],aes(x=reorder(Word,-frequency),y=frequency,fill=frequency))
+one_g<-one_g+geom_bar(stat="identity")
+one_g<-one_g+labs(title="Unigrams",x="Words",y="Frequency")
+one_g<-one_g+theme(axis.text.x=element_text(angle=90))
+one_g
+
+two_g<-ggplot(two_corpus_sort[1:10,],aes(x=reorder(Word,-frequency),y=frequency,fill=frequency))
+two_g<-two_g+geom_bar(stat="identity")
+two_g<-two_g+labs(title="Bigrams",x="Words",y="Frequency")
+two_g<-two_g+theme(axis.text.x=element_text(angle=90))
+two_g
+
+thr_g<-ggplot(thr_corpus_sort[1:10,],aes(x=reorder(Word,-frequency),y=frequency,fill=frequency))
+thr_g<-thr_g+geom_bar(stat="identity")
+thr_g<-thr_g+labs(title="Trigrams",x="Words",y="Frequency")
+thr_g<-thr_g+theme(axis.text.x=element_text(angle=90))
+thr_g
+```
+
+## Conclusion & Next Steps
+Ideas: Use a text input box as the user interface of the Shiny app. 
+
+Next Steps:
+1.Build a predictive algorithm 
+2.Build a a Shiny app, that suggest the most likely next word after a phrase is typed
+3.Prepare a pitch about the app and publish it at "shinyapps.io" server.
+
+
+
+
+
+
+
+
+
+
+
+
