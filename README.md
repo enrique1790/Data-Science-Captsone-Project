@@ -57,6 +57,17 @@ The data came from HC Corpora with three files (Blogs, News and Twitter). The da
 ## Reference
 [Natural Language Processing:](https://en.wikipedia.org/wiki/Natural_language_processing)
 
-N-grams: 
+[N-grams:](https://web.stanford.edu/class/cs124/lec/languagemodeling.pdf) 
+
+[Markov Model:](https://pdfs.semanticscholar.org/2bf0/8addb83f51befa8b4bc7ed16b54ed34018d0.pdf)
+
+[Kat'z back-off model](https://nlp.stanford.edu/~wcmac/papers/20050421-smoothing-tutorial.pdf)
+
+[Shiny App:](https://enrique1790.shinyapps.io/predictive-word-app/)
+
+[Slide Deck:](http://rpubs.com/enrique1790/444641)
+
+
+
 
 
