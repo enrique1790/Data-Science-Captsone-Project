@@ -30,7 +30,8 @@ Why not chain rule and instead markov assumption? Not practical
 
 **Markov Random Process:**
 A Random sequence has has the Markov property if the conditional probability distribution of future states of the process (conditional on both past and present states) depends only upon the present state, not on the sequence of events that preceded it (Bigram, Trigram)
-*Any random process having this property is called a Markov Random Process.
+
+* Any random process having this property is called a Markov Random Process.
 ex.(n-gram probabilistic logic)
 
 * A system with states that obey the Markov Assumption is called a Markov Model.
