@@ -1,5 +1,4 @@
-# Data-Science-Captsone-Project
-# Next Word Prediction App
+# Data-Science-Captsone-Project: Next Word Prediction App
 
 ## About Natural Processing Language
 
@@ -24,9 +23,9 @@ P(W1,W2…,WT) = P(W2|W1)P(W3|W1,W2)...P(WT|W1,...,Wt-1)
 
 Why not chain rule and instead markov assumption? Not practical
 
-** Too many possible sentences!! **
+**Too many possible sentences!!**
 
-** We’ll never see enough data for estimating these!!**
+**We’ll never see enough data for estimating these!!**
 
 Markov Random Process:
 A Random sequence has has the Markov property if the conditional probability distribution of future states of the process (conditional on both past and present states) depends only upon the present state, not on the sequence of events that preceded it (Bigram, Trigram)
