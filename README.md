@@ -42,7 +42,7 @@ ex.(n-gram probabilistic logic)
 
 * Works by first checking the Quadgram first and if there is no outcome then it checks the Trigram if the trigram also fails predict it moves to a Bigram.
 
-**Generate data-sets for (unigram, bigram, trigram, quadgram)**
+## Generate data-sets for (unigram, bigram, trigram, quadgram)
 The data came from HC Corpora with three files (Blogs, News and Twitter). The data was cleaned, processed, tokenized, and n-grams are created. The final report comes from the link Milestone Report.
 
 * After loaded the data, a sample was created, cleaned and prepared to be used as a corpus of text. It was converted to lowercase, removed the punctuation, links, whitespace, numbers and profanity words
