@@ -61,7 +61,7 @@ The data came from HC Corpora with three files (Blogs, News and Twitter). The da
 
 [Markov Model:](https://pdfs.semanticscholar.org/2bf0/8addb83f51befa8b4bc7ed16b54ed34018d0.pdf)
 
-[Kat'z back-off model](https://nlp.stanford.edu/~wcmac/papers/20050421-smoothing-tutorial.pdf)
+[Kat'z back-off model:](https://nlp.stanford.edu/~wcmac/papers/20050421-smoothing-tutorial.pdf)
 
 [Shiny App:](https://enrique1790.shinyapps.io/predictive-word-app/)
 
