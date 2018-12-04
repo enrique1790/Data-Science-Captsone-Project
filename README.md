@@ -33,9 +33,9 @@ A Random sequence has has the Markov property if the conditional probability dis
 *Any random process having this property is called a Markov Random Process.
 ex.(n-gram probabilistic logic)
 
-*A system with states that obey the Markov Assumption is called a Markov Model.
+* A system with states that obey the Markov Assumption is called a Markov Model.
 
-*A sequence of states resulting from such a model is called a Markov Chain.
+* A sequence of states resulting from such a model is called a Markov Chain.
 
 **Katz Back-Off Model:** 
 * (type of probabilistic language model)  is a generative n-gram language model that estimates the conditional probability of a word given it’s history in the n-gram.
@@ -49,7 +49,7 @@ The data came from HC Corpora with three files (Blogs, News and Twitter). The da
 
 * The sample text was "tokenized" into so-called n-grams to construct the predictive models (Tokenization is the process of breaking a stream of text up into words, phrases. N-gram is a contiguous sequence of n items from a given sequence of text).
 
-*The n-grams files or data.frames (unigram, bigram, trigram and quadgram) are matrices with frequencies of words, used into the algorithm to predict the next word based on the text entered by the user.
+* The n-grams files or data.frames (unigram, bigram, trigram and quadgram) are matrices with frequencies of words, used into the algorithm to predict the next word based on the text entered by the user.
 
 * For faster performance save individually 
 
