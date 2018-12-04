@@ -42,7 +42,19 @@ ex.(n-gram probabilistic logic)
 
 * Works by first checking the Quadgram first and if there is no outcome then it checks the Trigram if the trigram also fails predict it moves to a Bigram.
 
-**Generate data-sets for (unigram, bigram, trigram, quadgram)
+**Generate data-sets for (unigram, bigram, trigram, quadgram)**
+The data came from HC Corpora with three files (Blogs, News and Twitter). The data was cleaned, processed, tokenized, and n-grams are created. The final report comes from the link Milestone Report.
+
+* After loaded the data, a sample was created, cleaned and prepared to be used as a corpus of text. It was converted to lowercase, removed the punctuation, links, whitespace, numbers and profanity words
+
+* The sample text was "tokenized" into so-called n-grams to construct the predictive models (Tokenization is the process of breaking a stream of text up into words, phrases. N-gram is a contiguous sequence of n items from a given sequence of text).
+
+*The n-grams files or data.frames (unigram, bigram, trigram and quadgram) are matrices with frequencies of words, used into the algorithm to predict the next word based on the text entered by the user.
+
+* For faster performance save individually 
+
+
+
 
 
 
