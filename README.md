@@ -54,8 +54,9 @@ The data came from HC Corpora with three files (Blogs, News and Twitter). The da
 
 * For faster performance save individually 
 
+## Reference
+[Natural Language Processing:](https://en.wikipedia.org/wiki/Natural_language_processing)
 
-
-
+N-grams: 
 
 
